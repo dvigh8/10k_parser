@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+  <style>
+    .upload-form {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-width: 500px;
+    }
+    .upload-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .upload-button:hover {
+      background-color: #45a049;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <h1 class="display-4">Welcome to Form 10 K Viewer</h1>
+        <form method="POST" enctype="multipart/form-data">
+          <input type="file" name="file" accept=".pdf" required />
+          <button type="submit" class="upload-button">Upload</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5"></div>
+{% endblock %}

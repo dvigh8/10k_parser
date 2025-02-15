@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+  <style>
+    .upload-form {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-width: 500px;
+    }
+    .upload-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .upload-button:hover {
+      background-color: #45a049;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <h1 class="display-4">Welcome to Form 10 K Viewer</h1>
+        <h2 class="display-5">Dashboard for {{ filename }}</h2>
+      </div>
+    </div>
+    <!-- Loading spinner -->
+    <div id="loading" class="d-none">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Results container -->
+    <div id="results" class="mt-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">PDF Analysis Results</h5>
+          <div class="row">
+            <div class="col-md-4">
+              <p>
+                <strong>Pages:</strong> <span id="pageCount">-</span>
+              </p>
+            </div>
+          </div>
+          <div class="mt-3">
+            <h6>Preview:</h6>
+            <div id="preview" class="border p-3 bg-light">
+              <p class="text-muted">Processing...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5"></div>
+  <!-- Include the PDF processing script -->
+  <script src="{{ url_for('static', filename='js/pdf.js') }}"></script>
+  <script>
+    // Start processing when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      processPdf('{{ api_url }}')
+    })
+  </script>
+{% endblock %}
