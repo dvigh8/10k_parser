@@ -6,12 +6,12 @@ readme = "README.md"
 requires-python = ">=3.10"
 authors = [{name = "David Vigh", email = "david@davidvigh.com"}]
 dependencies = [
+    "aiofiles>=24.1.0",
     "flask-sqlalchemy>=3.1.1",
     "flask[async]>=3.1.0",
     "logfire[flask]>=3.5.3",
-    "pdfplumber>=0.11.5",
+    "pandas>=2.2.3",
     "pymupdf>=1.25.3",
-    "tqdm>=4.67.1",
 ]
 
 [build-system]
@@ -20,3 +20,4 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["webview10k"]
+

@@ -20,39 +20,162 @@
     .upload-button:hover {
       background-color: #45a049;
     }
+    .tab-content {
+      padding: 20px;
+    }
+    #risk-detail-description pre {
+      white-space: pre-wrap; /* preserve whitespace and wrap */
+      font-family: inherit; /* use the same font as other text */
+      background: transparent; /* remove default pre background */
+      margin: 0; /* remove default margins */
+      padding: 0; /* remove default padding */
+    }
+    .table td {
+      vertical-align: middle;
+    }
+    
+    .table td:first-child {
+      white-space: nowrap;
+    }
+    
+    @media (max-width: 768px) {
+      .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+      }
+    }
   </style>
 {% endblock %}
 {% block content %}
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-8 offset-md-2 text-center">
-        <h1 class="display-4">Welcome to Form 10 K Viewer</h1>
-        <h2 class="display-5">Dashboard for {{ filename }}</h2>
-      </div>
-    </div>
-    <!-- Loading spinner -->
-    <div id="loading" class="d-none">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
+        <h4>Form 10-K Viewer for {{ filename }}</h4>
       </div>
     </div>
 
-    <!-- Results container -->
-    <div id="results" class="mt-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">PDF Analysis Results</h5>
-          <div class="row">
-            <div class="col-md-4">
-              <p>
-                <strong>Pages:</strong> <span id="pageCount">-</span>
-              </p>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="business-tab" data-bs-toggle="tab" data-bs-target="#business" type="button" role="tab">Business</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="risk-factors-tab" data-bs-toggle="tab" data-bs-target="#risk-factors" type="button" role="tab">Risk Factors</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="mda-tab" data-bs-toggle="tab" data-bs-target="#mda" type="button" role="tab">MD&A</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="finance-tab" data-bs-toggle="tab" data-bs-target="#finance" type="button" role="tab">Finance</button>
+      </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content" id="myTabContent">
+      <!-- Overview tab -->
+      <div class="tab-pane fade show active" id="overview" role="tabpanel">
+        <!-- Loading spinner -->
+        <div id="loading" class="d-none">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+        <!-- Results container -->
+        <div id="results" class="mt-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <p class="mb-2">
+                    <strong>Filed:</strong> <span id="fiscalYear" class="ms-1">-</span>
+                  </p>
+                  <p class="mb-2">
+                    <strong>Pages:</strong> <span id="pageCount" class="ms-1">-</span>
+                  </p>
+                </div>
+              </div>
+              <div class="mt-3">
+                <h6>First Page:</h6>
+                <div id="preview" class="border p-3 bg-light">
+                  <p class="text-muted">Processing...</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="mt-3">
-            <h6>Preview:</h6>
-            <div id="preview" class="border p-3 bg-light">
-              <p class="text-muted">Processing...</p>
+        </div>
+      </div>
+
+      <!-- Risk Factors tab -->
+      <div class="tab-pane fade" id="risk-factors" role="tabpanel">
+        <div id="risk-factors-content" class="mt-4">
+          <!-- Introduction section -->
+          <div id="introduction" class="mb-4"></div>
+
+          <!-- Risk titles list -->
+          <div id="risk-list-section">
+            <h4>Risk Factors</h4>
+            <div id="risk-titles" class="list-group"></div>
+          </div>
+
+          <!-- Detail view section -->
+          <div id="risk-detail-section" style="display: none">
+            <button class="btn btn-sm btn-secondary mb-3" onclick="showRiskList()">← Back to Risk Factors</button>
+            <h4 id="risk-detail-title"></h4>
+            <div id="risk-detail-description"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business tab -->
+      <div class="tab-pane fade" id="business" role="tabpanel">
+        <div id="business-content" class="mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Business Overview</h5>
+              <div id="business-text" class="border p-3 bg-light">
+                <p class="text-muted">Loading business section...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ...existing risk factors tab content... -->
+
+      <!-- MD&A tab -->
+      <div class="tab-pane fade" id="mda" role="tabpanel">
+        <div id="mda-content" class="mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Management Discussion & Analysis</h5>
+              <div id="mda-text" class="border p-3 bg-light">
+                <p class="text-muted">Loading MD&A section...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Finance tab -->
+      <div class="tab-pane fade" id="finance" role="tabpanel">
+        <div id="finance-content" class="mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Financial Statements</h5>
+              <p>
+                Below is the finance section of the 10-K filing. The tables are extracted from financial statements part of the document.
+              </p>
+              <div id="finance-text" class="border p-3 bg-light">
+                <p class="text-muted">Loading Finance section...</p>
+              </div>
+              <div id="financial-tables" class="mt-4">
+                <!-- Tables will be inserted here -->
+              </div>
             </div>
           </div>
         </div>
@@ -60,13 +183,20 @@
     </div>
   </div>
 
-  <div class="row mt-5"></div>
+  <!-- Include Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/finance.js') }}"></script>
   <!-- Include the PDF processing script -->
   <script src="{{ url_for('static', filename='js/pdf.js') }}"></script>
   <script>
     // Start processing when page loads
     document.addEventListener('DOMContentLoaded', () => {
       processPdf('{{ api_url }}')
+      loadRiskFactors('{{ filename }}')
+      loadBusinessSection('{{ filename }}')
+      loadMDASection('{{ filename }}')
+      loadFinanceSection('{{ filename }}')
+      loadFinanceSectionTables('{{ filename }}')
     })
   </script>
 {% endblock %}
