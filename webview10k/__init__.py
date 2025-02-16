@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from .config import log
 from pathlib import Path
+import os
 
 # Initialize extensions
 db = SQLAlchemy()
@@ -9,7 +10,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-
+    app.config['HOST'] = os.getenv('FLASK_RUN_HOST', '127.0.0.1')
     try:
         
         log.instrument_flask(app)
